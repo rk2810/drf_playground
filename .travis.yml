@@ -8,4 +8,4 @@ services:
 before_script: pip install docker-compose black
 
 script:
-    - docker-compose run app sh -c "python manage.py test && black --line-length 119 app/"
+    - docker-compose run app sh -c "python manage.py test && black --check ."

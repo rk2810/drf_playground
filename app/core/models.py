@@ -9,9 +9,14 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     """Custom user manager"""
 
+    def normalize_email2(self, email):
+        """since normalize_email only checks the domain so lower the whole email altogether was a good idea."""
+        email = self.normalize_email(email).lower()
+        return email
+
     def create_user(self, email, password=None, **extra_fields):
         """Create and save user"""
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=self.normalize_email2(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 

@@ -3,9 +3,7 @@ LABEL maintainer="RohanK"
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev
-RUN pip install cython
-RUN apk del .build-deps gcc musl-dev
+RUN apk add --no-cache --update python3-dev  gcc build-base
 
 COPY ./requirements.txt   /requirements.txt
 RUN pip install -r /requirements.txt

@@ -14,5 +14,3 @@ COPY ./app /app
 
 RUN adduser -D rohan
 USER rohan
-
-

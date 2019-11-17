@@ -3,10 +3,18 @@ LABEL maintainer="RohanK"
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk add --no-cache --update python3-dev  gcc build-base
-
 COPY ./requirements.txt   /requirements.txt
+
+RUN apk add --no-cache --update build-base postgresql-client
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+            python3-dev \
+            gcc \
+            libc-dev \
+            linux-headers \
+            postgresql-dev
+
 RUN pip install -r /requirements.txt
+RUN apk del .tmp-build-deps
 
 RUN mkdir /app
 WORKDIR /app

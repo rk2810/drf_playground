@@ -20,7 +20,6 @@ class AdminTests(TestCase):
     def test_user_listed(self):
         """Test to check if admin page loads list of users correctly"""
         url = reverse("admin:core_user_changelist")
-        print(url)
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)

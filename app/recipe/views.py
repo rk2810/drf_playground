@@ -4,7 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.models import Tag, Ingredient, Recipe
 
-from recipe.serializers import TagSerializer, IngredientSerializer, RecipeSerializer
+from recipe.serializers import (
+    TagSerializer,
+    IngredientSerializer,
+    RecipeSerializer,
+    RecipeDetailSerializer,
+)
 
 
 class BaseRecipeAttr(
@@ -49,3 +54,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """return QS for current user only"""
         return self.queryset.filter(user=self.request.user).order_by("-id")
+
+    def get_serializer_class(self):
+        """get serializer based on request"""
+        if self.action == "retrieve":
+            return RecipeDetailSerializer
+
+        return RecipeSerializer

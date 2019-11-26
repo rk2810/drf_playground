@@ -25,7 +25,13 @@ class BaseRecipeAttr(
 
     def get_queryset(self):
         """return QS for current user only"""
-        return self.queryset.filter(user=self.request.user).order_by("-name")
+        assigned_only = self.request.query_params.get("assigned_only")
+
+        queryset = self.queryset
+        if assigned_only:
+            queryset = queryset.filter(recipe__isnull=False)
+
+        return queryset.filter(user=self.request.user).order_by("-name").distinct()
 
     def perform_create(self, serializer):
         """ create a new object"""
